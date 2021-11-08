@@ -9,33 +9,61 @@
 <body>
 
     <section class="panel">
-        <ul class="panel__excursions excursions">
-            <li class="excursions__item excursions__item--prototype">
-                <header class="excursions__header">
-                    <h2 class="excursions__title">Ogrodzieniec</h2>
-                    <p class="excursions__description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?</p>
-                </header>
-                <form class="excursions__form">
-                    <div class="excursions__field">
-                        <label class="excursions__field-name">
-                            Dorosły: 99PLN x <input class="excursions__field-input" name="adults" />
-                        </label>
-                    </div>
-                    <div class="excursions__field">
-                        <label class="excursions__field-name">
-                            Dziecko: 50PLN x <input class="excursions__field-input" name="children" />
-                        </label>
-                    </div>
-                    <div class="excursions__field excursions__field--submit">
-                        <input 
-                            class="excursions__field-input excursions__field-input--submit" 
-                            value="dodaj do zamówinia"
-                            type="submit"
-                        />
-                    </div>
-                </form>
-            </li>
-        </ul>
+        <section class="panel__excursions">
+            
+        </section>
+            <ul class="panel__excursions excursions">
+                <li class="excursions__item excursions__item--prototype">
+                    <header class="excursions__header">
+                        <h2 class="excursions__title">Ogrodzieniec</h2>
+                        <p class="excursions__description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?</p>
+                    </header>
+                    <form class="excursions__form">
+                        <div class="excursions__field">
+                            <label class="excursions__field-name">
+                                Dorosły: <span class='excursions__price'>99</span>PLN x <input class="excursions__field-input" name="adults" />
+                            </label>
+                        </div>
+                        <div class="excursions__field">
+                            <label class="excursions__field-name">
+                                Dziecko: <span class='excursions__price'>50</span>PLN x <input class="excursions__field-input" name="children" />
+                            </label>
+                        </div>
+                        <div class="excursions__field excursions__field--submit">
+                            <input 
+                                class="excursions__field-input excursions__field-input--submit" 
+                                value="dodaj do zamówinia"
+                                type="submit"
+                            />
+                        </div>
+                    </form>
+                </li>
+                <li class="excursions__item">
+                    <header class="excursions__header">
+                        <h2 class="excursions__title">Ogrodzieniec</h2>
+                        <p class="excursions__description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?</p>
+                    </header>
+                    <form class="excursions__form">
+                        <div class="excursions__field">
+                            <label class="excursions__field-name">
+                                Dorosły: <span class='excursions__price'>99</span>PLN x <input class="excursions__field-input" name="adults" />
+                            </label>
+                        </div>
+                        <div class="excursions__field">
+                            <label class="excursions__field-name">
+                                Dziecko: <span class='excursions__price'>50</span>PLN x <input class="excursions__field-input" name="children" />
+                            </label>
+                        </div>
+                        <div class="excursions__field excursions__field--submit">
+                            <input 
+                                class="excursions__field-input excursions__field-input--submit" 
+                                value="dodaj do zamówinia"
+                                type="submit"
+                            />
+                        </div>
+                    </form>
+                </li>
+            </ul>
         <section class="panel__form">
             <form class="panel__order order" novalidate>
                 <div class="order__total-price">
@@ -67,7 +95,7 @@
                         <strong class="summay__total-price">199PLN</strong> 
                         <a href="" class="summary__btn-remove" title="usuń">X</a>
                     </h3>
-                    <p class="summary__prices">dorośli: 1 x 99PLN, dzieci: 2 x 50PLN</p>
+                    <p class="summary__prices">dorośli: <span class="summary__prices-adult-number">1</span> x <span class="summary__prices-adult">99</span>PLN, dzieci: <span class="summary__prices-children-number">2</span> x <span class="summary__prices-children">50</span>PLN</p>
                 </li>
             </ul>
         </section>
