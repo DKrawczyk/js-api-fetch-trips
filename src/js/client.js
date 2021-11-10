@@ -1,7 +1,8 @@
 import './../css/client.css';
 
 import ExcursionsAPI from './ExcursionsAPI';
-const apiUrl = 'http://localost:3000/excursions';
+const apiUrlOrders = 'http://localhost:3000/orders';
+const basket = [];
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -36,9 +37,12 @@ function dataValidation(item) {
 
     if (adultNumber > 0 || childNumber > 0) {
         if(isNaN(adultNumber) === false && isNaN(childNumber) == false) {
-
-            addExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber);
+            const test = item.parentElement.querySelector('.excursions__description').textContent;
+            const tripData = addExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber);
             getTotalPrice();
+
+            tripData.description = test;
+            basket.push(tripData);
         }
         else 
         alert('Please, insert correct values');
@@ -68,12 +72,14 @@ function addExcursion(tripTitle, adultPrice, childPrice, adultMember, childMembe
 
     newExcursion.style.display = "block";
     newExcursion.classList.remove('summary__item--prototype');
-    newExcursion.querySelector('.summary__name').innerText = tripTitle;
+    const orderTitle = newExcursion.querySelector('.summary__name').innerText = tripTitle;
     newExcursion.querySelector('.summary__prices-adult-number').innerText = adultMember;
     newExcursion.querySelector('.summary__prices-children-number').innerText = childMember;
-    newExcursion.querySelector('.summary__prices-adult').innerText = adultPrice;
-    newExcursion.querySelector('.summary__prices-children').innerText = childPrice;
+    const adultOrderPrice = newExcursion.querySelector('.summary__prices-adult').innerText = adultPrice;
+    const childOrderPrice = newExcursion.querySelector('.summary__prices-children').innerText = childPrice;
     newExcursion.querySelector('.summay__total-price').innerText = `${singleExcursionPrice}PLN`;
+
+    return {orderTitle, adultOrderPrice, childOrderPrice}
 }
 
 function removeSingleExcursion(ev) {
@@ -118,17 +124,8 @@ function setTotalPrice(prices) {
 }
 
 function userOrder(ev) {
-    // ev.preventDefault();
-
-    const nameAndSurname = document.querySelector('input[name="name"]').value;
-    const email = document.querySelector('input[name="email"]').value;
-    const regexName = /^[\w'\-,.][^0-9_!¡?÷?¿\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
-
-    purchaserDatas(nameAndSurname, email, regexName, ev);
-}
-
-function purchaserDatas(name, email, regex, event) {
-    const errorValidation = [];
+    const [name, email, regex] = purchaserDatas(ev);
+    let errorValidation = [];
     
     if(name.length > 1 && email.length > 1) {
         if(regex.test(name) === true) {
@@ -148,28 +145,54 @@ function purchaserDatas(name, email, regex, event) {
     }
 
     if(errorValidation.length > 0) {
-        event.preventDefault();
+        ev.preventDefault();
     }
     else {
-        event.preventDefault();
-        alert('Dziękujęmy za złożenie zamówienia o wartości');
-        sendOrder();
+        // ev.preventDefault();
+        sendOrder(orderDatas(name, email));
         errorValidation = [];
+        alert('Thank you for order our trips!');
     }
 }
 
-function sendOrder() {
+function purchaserDatas() {
+    const nameAndSurname = document.querySelector('input[name="name"]').value;
+    const email = document.querySelector('input[name="email"]').value;
+    const regexName = /^[\w'\-,.][^0-9_!¡?÷?¿\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
 
-    console.log(sendingOption());
-    
-
-    // const promise = fetch(apiUrl);
+    return [nameAndSurname, email, regexName];
 }
 
-function sendingOption() {
-    const options = {
-        method: 'POST'
+function orderDatas(name, email) {
+    const data = {
+        purchaser:name,
+        purchaserEmail: email,
+        cart:basket
+    }
+    return data;
+}
 
+function sendOrder(data) {
+    const promise = fetch(apiUrlOrders, sendingOption(data));
+
+    promise
+        .then(resp => {
+            if(resp.ok) {
+                return resp.json();
+            }
+            return Promise.reject(resp);
+        })
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+        .finally(console.log('done'));
+
+}
+
+function sendingOption(data) {
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'}
     }
     return options;
 }

@@ -1,4 +1,18 @@
 {
-    "excursions": [],
-    "orders": []
+  "excursions": [],
+  "orders": [
+    {
+      "purchaser": "Dawid Krawczyk",
+      "purchaserEmail": "stich101@wp.pl",
+      "cart": [
+        {
+          "orderTitle": "Ogrodzieniec",
+          "adultOrderPrice": 99,
+          "childOrderPrice": 50,
+          "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?"
+        }
+      ],
+      "id": 1
+    }
+  ]
 }
