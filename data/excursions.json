@@ -1,5 +1,20 @@
 {
-  "excursions": [],
+  "excursions": [
+    {
+      "title": "Ogrodzieniec",
+      "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?\n\n",
+      "adultPrice": "90",
+      "childPrice": "40",
+      "id": 2
+    },
+    {
+      "title": "Wrocław",
+      "description": "Nemo, nobis veritatis?",
+      "adultPrice": "150",
+      "childPrice": "110",
+      "id": 3
+    }
+  ],
   "orders": [
     {
       "purchaser": "Dawid Krawczyk",
@@ -13,6 +28,44 @@
         }
       ],
       "id": 1
+    },
+    {
+      "purchaser": "Dawid Krawczyk",
+      "purchaserEmail": "nisaf13851@datakop.com",
+      "cart": [
+        {
+          "orderTitle": "Warszawa",
+          "adultOrderPrice": 200,
+          "childOrderPrice": 120,
+          "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit."
+        }
+      ],
+      "id": 2
+    },
+    {
+      "purchaser": "Dawid Krawczyk",
+      "purchaserEmail": "nisaf13851@datakop.com",
+      "cart": [
+        {
+          "orderTitle": "Warszawa",
+          "adultOrderPrice": 200,
+          "childOrderPrice": 120,
+          "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit."
+        },
+        {
+          "orderTitle": "Jarocin",
+          "adultOrderPrice": 40,
+          "childOrderPrice": 15,
+          "description": "Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime!"
+        },
+        {
+          "orderTitle": "Ogrodzieniec",
+          "adultOrderPrice": 99,
+          "childOrderPrice": 50,
+          "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?"
+        }
+      ],
+      "id": 3
     }
   ]
 }

@@ -2,16 +2,19 @@ import './../css/client.css';
 
 import ExcursionsAPI from './ExcursionsAPI';
 const apiUrlOrders = 'http://localhost:3000/orders';
+const apiUrlExcursions = 'http://localhost:3000/excursions';
 const basket = [];
 
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
     hideDefaultValues();
-    
+    loadExcursions();
+
     const excursions = document.querySelector('.excursions');
     const summary = document.querySelector('.summary');
     const orderPanel = document.querySelector('.order');
+    
     excursions.addEventListener('submit', addToOrder);
     summary.addEventListener('click', removeSingleExcursion);
     orderPanel.addEventListener('submit', userOrder);
@@ -23,6 +26,42 @@ function hideDefaultValues() {
 
     const price = document.querySelector('.order__total-price-value');
     price.innerText = '0PLN';
+
+    const excursionPrototype = document.querySelector('.excursions__item--prototype');
+    excursionPrototype.style.display = 'none';
+}
+
+function loadExcursions() {
+    const promise = fetch(apiUrlExcursions);
+
+    promise
+        .then (resp => {
+            if (resp.ok) {
+                return resp.json();
+            }
+            return Promise.reject(resp);
+        })
+        .then (data => insertExcursions(data))
+        .catch (err => console.log(err))
+        .finally (console.log('DONE'));
+}
+
+function insertExcursions(data) {
+    const excursionList = document.querySelector('.excursions');
+    const excursionPrototype = document.querySelector('.excursions__item--prototype'); 
+    excursionList.innerHTML = '';
+    
+    data.forEach( el => {
+        const excursionItem = excursionPrototype.cloneNode(true);
+        excursionItem.style.display = 'block';
+        excursionItem.querySelector('h2').innerText = el.title;
+        excursionItem.querySelector('p').innerText = el.description;
+        excursionItem.querySelector('.excursions__price-adult').innerText = el.adultPrice;
+        excursionItem.querySelector('.excursions__price-child').innerText = el.childPrice;
+        excursionItem.dataset.id = el.id;
+
+        excursionList.appendChild(excursionItem);
+    });
 }
 
 function addToOrder(ev) {
@@ -53,10 +92,9 @@ function dataValidation(item) {
 }
 
 function getExcersionMembersInfo(item) {
-    const priceArray = item.querySelectorAll('.excursions__price');
     const tripTitle = item.parentElement.querySelector('.excursions__title').textContent;
-    const adultPrice = priceArray[0].textContent;
-    const childPrice = priceArray[1].textContent;
+    const adultPrice = item.querySelector('.excursions__price-adult').textContent;
+    const childPrice = item.querySelector('.excursions__price-child').textContent;
     const adultNumber = item.querySelector('input[name="adults"]').value;
     const childNumber = item.querySelector('input[name="children"]').value;
 
@@ -173,7 +211,14 @@ function orderDatas(name, email) {
 }
 
 function sendOrder(data) {
-    const promise = fetch(apiUrlOrders, sendingOption(data));
+
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'}
+    }
+
+    const promise = fetch(apiUrlOrders, options);
 
     promise
         .then(resp => {
@@ -185,14 +230,4 @@ function sendOrder(data) {
         .then(data => console.log(data))
         .catch(err => console.log(err))
         .finally(console.log('done'));
-
-}
-
-function sendingOption(data) {
-    const options = {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {'Content-Type': 'application/json'}
-    }
-    return options;
 }
