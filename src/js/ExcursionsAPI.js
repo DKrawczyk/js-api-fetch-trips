@@ -2,11 +2,11 @@ class ExcursionsAPI {
 
     constructor() {
         this.excursionURL = 'http://localhost:3000/excursions';
+        this.orderURL = 'http://localhost:3000/orders';
     }
 
     loadData() {
-
-        return this._fetch();
+        return this._fetch(this.excursionURL);
     }
 
     addData(data) {
@@ -17,14 +17,24 @@ class ExcursionsAPI {
             headers: {'Content-Type': 'application/json'}
         }
 
-        return this._fetch(options);
+        return this._fetch(this.excursionURL, options);
+    }
+
+    addOrder(data) {
+        const options = {
+            method: 'POST', 
+            body: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'}
+        }
+
+        return this._fetch(this.orderURL, options);
     }
 
     removeData(id) {
 
         const options = { method: 'DELETE' };
 
-        return this._fetch(options, `/${id}`);
+        return this._fetch(this.excursionURL, options, `/${id}`);
     }
 
     updateData(id, data) {
@@ -35,11 +45,11 @@ class ExcursionsAPI {
             headers: {'Content-Type': 'application/json'}
         }
 
-        return this._fetch(options, `/${id}`);
+        return this._fetch(this.excursionURL, options, `/${id}`);
     }
-
-    _fetch(options, additionalPath = '') {
-        const url = this.excursionURL + additionalPath;
+    
+    _fetch(path, options, additionalPath = '') {
+        const url = path + additionalPath;
 
         return fetch (url, options)
             .then(resp => {
