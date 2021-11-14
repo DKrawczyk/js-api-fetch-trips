@@ -8,27 +8,21 @@
       "id": 2
     },
     {
+      "title": "Warszawa",
+      "description": "Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime!",
+      "adultPrice": "250",
+      "childPrice": "180",
+      "id": 4
+    },
+    {
       "title": "Wrocław",
       "description": "Nemo, nobis veritatis?",
-      "adultPrice": "150",
-      "childPrice": "110",
-      "id": 3
+      "adultPrice": "200",
+      "childPrice": "160",
+      "id": 5
     }
   ],
   "orders": [
-    {
-      "purchaser": "Dawid Krawczyk",
-      "purchaserEmail": "stich101@wp.pl",
-      "cart": [
-        {
-          "orderTitle": "Ogrodzieniec",
-          "adultOrderPrice": 99,
-          "childOrderPrice": 50,
-          "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?"
-        }
-      ],
-      "id": 1
-    },
     {
       "purchaser": "Dawid Krawczyk",
       "purchaserEmail": "nisaf13851@datakop.com",
@@ -47,25 +41,13 @@
       "purchaserEmail": "nisaf13851@datakop.com",
       "cart": [
         {
-          "orderTitle": "Warszawa",
-          "adultOrderPrice": 200,
-          "childOrderPrice": 120,
-          "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit."
-        },
-        {
-          "orderTitle": "Jarocin",
-          "adultOrderPrice": 40,
-          "childOrderPrice": 15,
-          "description": "Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime!"
-        },
-        {
           "orderTitle": "Ogrodzieniec",
-          "adultOrderPrice": 99,
-          "childOrderPrice": 50,
+          "adultOrderPrice": 90,
+          "childOrderPrice": 40,
           "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?"
         }
       ],
-      "id": 3
+      "id": 5
     }
   ]
 }

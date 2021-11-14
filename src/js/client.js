@@ -2,8 +2,8 @@ import './../css/client.css';
 
 import ExcursionsAPI from './ExcursionsAPI';
 const apiUrlOrders = 'http://localhost:3000/orders';
-const apiUrlExcursions = 'http://localhost:3000/excursions';
 const basket = [];
+const api = new ExcursionsAPI();
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -32,18 +32,13 @@ function hideDefaultValues() {
 }
 
 function loadExcursions() {
-    const promise = fetch(apiUrlExcursions);
-
-    promise
-        .then (resp => {
-            if (resp.ok) {
-                return resp.json();
-            }
-            return Promise.reject(resp);
+    
+    api.loadData()
+        .then (data => {
+            insertExcursions(data)
         })
-        .then (data => insertExcursions(data))
         .catch (err => console.log(err))
-        .finally (console.log('DONE'));
+        .finally (console.log('Excursions downloaded'));
 }
 
 function insertExcursions(data) {
@@ -76,11 +71,11 @@ function dataValidation(item) {
 
     if (adultNumber > 0 || childNumber > 0) {
         if(isNaN(adultNumber) === false && isNaN(childNumber) == false) {
-            const test = item.parentElement.querySelector('.excursions__description').textContent;
+            const description = item.parentElement.querySelector('.excursions__description').textContent;
             const tripData = addExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber);
             getTotalPrice();
 
-            tripData.description = test;
+            tripData.description = description;
             basket.push(tripData);
         }
         else 
@@ -162,24 +157,33 @@ function setTotalPrice(prices) {
 }
 
 function userOrder(ev) {
+    
     const [name, email, regex] = purchaserDatas(ev);
     let errorValidation = [];
-    
-    if(name.length > 1 && email.length > 1) {
-        if(regex.test(name) === true) {
-            if(!email.includes('@')) {
-                alert('Email is incorrect');
-                errorValidation.push('Email is incorrect')
+    const excursionItems = document.querySelectorAll('.summary__item');
+        
+    if(excursionItems.length >= 2) {
+        if(name.length > 1 && email.length > 1) {
+            if(regex.test(name) === true) {
+                if(!email.includes('@')) {
+                    alert('Email is incorrect');
+                    errorValidation.push('Email is incorrect')
+                }
             }
-        }
+            else {
+                alert('Name and surname is incorrect');
+                errorValidation.push('Name and surname is incorrect')
+            }
+        } 
         else {
-            alert('Name and surname is incorrect');
-            errorValidation.push('Name and surname is incorrect')
+            alert('Please, insert purchaser informations');
+            errorValidation.push('Please, insert purchaser informations')
         }
-    } 
+    }
     else {
-        alert('Please, insert purchaser informations');
-        errorValidation.push('Please, insert purchaser informations')
+        ev.preventDefault();
+        alert('Please, choose at least one excursion');
+        errorValidation.push('Please, choose at least one excursion')
     }
 
     if(errorValidation.length > 0) {

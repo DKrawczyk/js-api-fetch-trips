@@ -1,7 +1,7 @@
 import './../css/admin.css';
 
 import ExcursionsAPI from './ExcursionsAPI';
-const apiUrlExcursions = 'http://localhost:3000/excursions';
+const api = new ExcursionsAPI();
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -31,14 +31,10 @@ function editOrRemoveElement(ev) {
 
 function removeExcursion(parentElement, event) {
     const id = parentElement.dataset.id;
-    const options = {method: 'DELETE'};
     const deleteConfirmed = confirm ('Do you really want to delete this trip?');
     
     if(deleteConfirmed) {
-        fetch(`${apiUrlExcursions}/${id}`, options)
-            .then (resp => {
-                console.log(resp)
-            })
+        api.removeData(id)
             .catch (err => {
                 console.log(err)
             })
@@ -63,14 +59,8 @@ function updateExcursion(current, parentElement, event) {
             adultPrice: editableElements[2].innerText,
             childPrice: editableElements[3].innerText
         }
-        const options = {
-            method: 'PUT',
-            body: JSON.stringify(data),
-            headers: {'Content-Type': 'application/json'}
-        }
 
-        fetch(`${apiUrlExcursions}/${id}`, options)
-            .then (resp => console.log(resp))
+        api.updateData(id, data)
             .catch(err => console.log(err))
             .finally(() => {
                 current.value = 'edytuj';
@@ -86,15 +76,7 @@ function updateExcursion(current, parentElement, event) {
 
 function loadExcursions() {
 
-    const promise = fetch(apiUrlExcursions);
-
-    promise
-        .then (resp => {
-            if (resp.ok) {
-                return resp.json();
-            }
-            return Promise.reject(resp);
-        })
+    api.loadData()
         .then(data => insertExcursion(data))
         .catch(err => console.log(err))
         .finally(console.log('Excursions downloaded'));
@@ -153,21 +135,7 @@ function createElement(data) {
 
 function sendElementData(data) {
 
-    const options = {
-        method: 'POST', 
-        body: JSON.stringify(data),
-        headers: {'Content-Type': 'application/json'}
-    }
-    console.log(data);
-    const promise = fetch (apiUrlExcursions, options);
-    promise
-
-        .then(resp => {
-            if(resp.ok) {
-                return resp.json();
-            }
-            return Promise.reject(resp);
-        })
+    api.addData(data)
         .then(data => console.log(data))
         .catch(err => console.log(err))
         .finally(loadExcursions());
