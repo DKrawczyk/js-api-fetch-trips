@@ -25,7 +25,7 @@ ul {
     flex-direction: column;
 }
 
-.excurions__item {
+.excursions__item {
     border: 1px solid #bbb;
     border-radius: 5px;
     margin: 10px;

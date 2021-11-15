@@ -3,6 +3,7 @@ class Excursions {
     constructor(api) {
         this.apiAction = api;
         this.basket = [];
+        this.id = 0;
     }
 
     load() {
@@ -118,27 +119,16 @@ class Excursions {
         return [nameAndSurname, email, regexName];
     }
 
-// <----------  ERROR
-
     _removeExcursion(item, ev) {
         if(item.tagName === "A") {
             const userConfirm = confirm('Are you sure?');
             if(userConfirm) {
-                // console.log(this.basket);
-                // this.basket = [];
-                // const newBasketInfo = this._updateBasket(item);
 
-                // this.basket = newBasketInfo;
-                // console.log(this.basket);
-                item.parentElement.parentElement.parentElement.remove();
+                this._updateBasket(this._rootElement(item));
+                this._defaulBorder(item);
+
+                this._rootElement(item).remove();
                 
-                // for (var i = 0, len = test.length; i < len; i++) {
-                //     (function(index){
-                //         test[i].onclick = function(){
-                //             console.log(index)  ;
-                //         }    
-                //     })(i);
-                // }
                 // console.log(test);
                 this._getPrice();
                 console.log(this.basket);
@@ -149,28 +139,30 @@ class Excursions {
         }
     }
 
-    // _updateBasket() {
+    _updateBasket(current) {
 
-    //     let test2 = document.querySelectorAll('.summary__item');
-    //     const arr = [];
-    //     test2 = test2.forEach( el => {
-    //         if (!el.className.includes('summary__item--prototype')) {
-    //             const title = el.querySelector('.summary__name').textContent;
-    //             const adultOrderPrice = el.querySelector('.summary__prices-adult').textContent;
-    //             const childOrderPrice = el.querySelector('.summary__prices-children').textContent;
-    //             arr.push(title, adultOrderPrice, childOrderPrice);
-    //             return {
-    //                 title:title,
-    //                 adultOrderPrice: adultOrderPrice,
-    //                 childOrderPrice: childOrderPrice
-    //             }
-    //         }
-    //     })
-    //     console.log(arr);
-    //     console.log(test2);
-    // }
+        let test = parseFloat(current.dataset.id);
 
-//<---------    ERROR 
+        for (let i=0; i<this.basket.length; i++) {
+
+            if(this.basket[i].id === test) {
+                this.basket.splice(i, 1);
+            }
+        }
+        return this.basket;
+    }
+
+    _defaulBorder(item) {           //  <---        TO JEST W FAZIE PROTOTYPU, BĘDĘ TO UDOSKONALAŁ :D
+                                        
+        if(this.basket.length === 0) {
+            const excursionsArray = document.querySelectorAll('.excursions__item');
+
+            excursionsArray.forEach( el => {
+                el.style.border = '1px solid black';
+                el.style.boxShadow = '0px 0px 10px 3px rgb(0 0 0 / 50%)';
+            });
+        }
+    }
 
     _dataValidation(item) {
         const [tripTitle, adultPrice, childPrice, adultNumber, childNumber] = this._memberDatas(item);
@@ -181,6 +173,7 @@ class Excursions {
                 item.parentElement.style.boxShadow = '0px 0px 10px 3px green';
                 const description = item.parentElement.querySelector('.excursions__description').textContent;
                 const tripData = this._singleExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber);
+                this.id++;
                 this._getPrice();
 
                 tripData.description = description;
@@ -197,7 +190,6 @@ class Excursions {
     _getPrice() {
         const singlePrice = document.querySelectorAll('.summay__total-price');
         const pricesArray = [];
-        
     
         singlePrice.forEach((el) => {
             if(!el.parentElement.parentElement.parentElement.className.includes('summary__item--prototype')) {
@@ -223,7 +215,9 @@ class Excursions {
         const newExcursion = excursionPrototype.cloneNode(true);
         const singleExcursionPrice = adultPrice * adultMember + childPrice * childMember;
         summary.appendChild(newExcursion);
+        let id = this.id;
     
+        newExcursion.dataset.id = this.id;
         newExcursion.style.display = "block";
         newExcursion.classList.remove('summary__item--prototype');
         const orderTitle = newExcursion.querySelector('.summary__name').innerText = tripTitle;
@@ -232,8 +226,8 @@ class Excursions {
         const adultOrderPrice = newExcursion.querySelector('.summary__prices-adult').innerText = adultPrice;
         const childOrderPrice = newExcursion.querySelector('.summary__prices-children').innerText = childPrice;
         newExcursion.querySelector('.summay__total-price').innerText = `${singleExcursionPrice}PLN`;
-    
-        return {orderTitle, adultOrderPrice, childOrderPrice}
+        
+        return {orderTitle, adultOrderPrice, childOrderPrice, id}
     }
 
     _memberDatas(item) {
@@ -276,6 +270,10 @@ class Excursions {
 
     _summaryElement() {
         return document.querySelector('.summary');
+    }
+
+    _rootElement(item) {
+        return item.parentElement.parentElement.parentElement;
     }
 }
 
