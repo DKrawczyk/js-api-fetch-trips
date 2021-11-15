@@ -1,7 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;1,800&display=swap');
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+h2, p, label {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h2 {
+    font-size: 35px;
+}
+
+p, label {
+    font-weight: 400;
 }
 
 ul {
@@ -13,6 +26,7 @@ ul {
     margin: 0 auto;
     max-width: 1200px;
     padding: 30px 0;
+    justify-content: space-evenly;
 }
 
 .panel__excursins {
@@ -23,24 +37,188 @@ ul {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+    width: 65%;
+    align-items: center;
 }
 
-.excurions__item {
-    border: 1px solid #bbb;
+.excursions__item {
+    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     margin: 10px;
     padding: 20px;
-    width: calc(50% - 20px);
+    width: calc(80% - 20px);
+    display: flex;
+    align-items: center;
+    transition: transform .4s;
+}
+
+.excursions__item:hover {
+    transform: scale(1.05);
 }
 
 .panel__form {
-    background-color: #f4f4f4;
     padding: 20px;
-    width: 30%;
+    width: 35%;
 }
 
 .uploader, .order {
     border-bottom: 1px solid #bbb;
     margin-bottom: 20px;
     padding-bottom: 20px;
+}
+
+.excursions__title {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.excursions__description {
+    text-align: center;
+}
+
+.excursions__form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.excursions__field {
+    padding: 5px 0px;
+}
+
+.excursions__field-input--submit:hover {
+    /* transform: translateY(4px); */
+    cursor: pointer;
+}
+
+.excursions__field-input--submit{
+    background-color: #ccc;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    height: 4vh;
+    border-radius: 20px;
+    margin-top: 5%;
+    width: 220px;
+}
+
+.excursions__field-input:not([type=submit]) {
+    border-radius: 10px;
+    border: 3px solid #ccc;
+    transition: 0.5s;
+    height: 30px;
+}
+
+.excursions__field-input:focus:not([type=submit]) {
+    border: 3px solid #000;
+}
+
+.excursions__description {
+    padding: 10px 0;
+}
+
+.summary__btn-remove {
+    color: #000;
+}
+
+.summary__item {
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    transform: translateX(0px);
+    transition: 0.5s;
+    /* background-color: gray; */
+}
+
+.summary__item:hover {
+    /* padding: 5px 0; */
+    background-color: #ccc;
+    transform: translateX(15px);
+    transition: 0.5s;
+    /* cursor: pointer; */
+}
+
+.summary__item > h3 {
+    font-size: 23px;
+}
+
+.summary__title {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.summary__prices-box {
+    padding: 2px 0;
+    font-size: 15px;
+}
+
+.order__total-price {
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.order__total-price-value {
+    display: flex;
+    align-items: flex-end;
+    font-size: 35px;
+    justify-content: center;
+}
+
+.order__field {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order__field > label {
+    width: 50%;
+    transition: 0.8s;
+}
+
+.order__field > label:hover {
+    transition: 0.8s;
+    width: 100%;
+}
+
+.order__field--submit {
+    position: relative;
+}
+
+.order__field-submit {
+    background-color: #ccc;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    height: 4vh;
+    border-radius: 20px;
+    margin-top: 5%;
+    width: 50%;
+    cursor: pointer;
+  }
+
+.order__field--submit:hover .shine {
+    transform: skewX(20deg) translateX(285px);
+}
+  
+.shine {
+    position: absolute;
+    left: 24px;
+    top: 26px;
+    height: 45px;
+    width: 50px;
+    background: rgba(255, 255, 255, 0.4);
+    transition: all .4s linear;
+    transform: skewX(20deg) translateX(0);
+  }
+
+.order__field-input:not([type=submit]) {
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 22px;
 }

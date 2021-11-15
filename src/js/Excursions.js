@@ -39,7 +39,7 @@ class Excursions {
         const summary = this._summaryElement();
         summary.addEventListener('click', ev => {
             ev.preventDefault();
-            this._removeExcursion(ev.target)
+            this._removeExcursion(ev.target, ev)
         });
     }
 
@@ -120,33 +120,28 @@ class Excursions {
 
 // <----------  ERROR
 
-    _removeExcursion(item) {
+    _removeExcursion(item, ev) {
         if(item.tagName === "A") {
             const userConfirm = confirm('Are you sure?');
             if(userConfirm) {
-                // this.basket = [];
-                item.parentElement.parentElement.remove();
-                const test = document.querySelectorAll('.summary__item');
-                test.forEach(el => {
-                    if (!el.className.includes('summary__item--prototype')) {
-                        console.log(el);
-                    }
-                })
-
-                const test2 = this._singleExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber);
-                console.log(test2);
-                console.log(test);
-                this.test();
-                
-                this._getPrice();
-
-                // console.log(this);
-
-                console.log(this.basket);
-                // test.forEach(el => {
-                //     this.basket.push(el)
-                // })
                 // console.log(this.basket);
+                // this.basket = [];
+                // const newBasketInfo = this._updateBasket(item);
+
+                // this.basket = newBasketInfo;
+                // console.log(this.basket);
+                item.parentElement.parentElement.parentElement.remove();
+                
+                // for (var i = 0, len = test.length; i < len; i++) {
+                //     (function(index){
+                //         test[i].onclick = function(){
+                //             console.log(index)  ;
+                //         }    
+                //     })(i);
+                // }
+                // console.log(test);
+                this._getPrice();
+                console.log(this.basket);
             }
             else {
                 ev.preventDefault();
@@ -154,13 +149,36 @@ class Excursions {
         }
     }
 
-//<---------    ERROR
+    // _updateBasket() {
+
+    //     let test2 = document.querySelectorAll('.summary__item');
+    //     const arr = [];
+    //     test2 = test2.forEach( el => {
+    //         if (!el.className.includes('summary__item--prototype')) {
+    //             const title = el.querySelector('.summary__name').textContent;
+    //             const adultOrderPrice = el.querySelector('.summary__prices-adult').textContent;
+    //             const childOrderPrice = el.querySelector('.summary__prices-children').textContent;
+    //             arr.push(title, adultOrderPrice, childOrderPrice);
+    //             return {
+    //                 title:title,
+    //                 adultOrderPrice: adultOrderPrice,
+    //                 childOrderPrice: childOrderPrice
+    //             }
+    //         }
+    //     })
+    //     console.log(arr);
+    //     console.log(test2);
+    // }
+
+//<---------    ERROR 
 
     _dataValidation(item) {
         const [tripTitle, adultPrice, childPrice, adultNumber, childNumber] = this._memberDatas(item);
 
         if (adultNumber > 0 || childNumber > 0) {
             if(isNaN(adultNumber) === false && isNaN(childNumber) === false) {
+                item.parentElement.style.border = '1px solid green';
+                item.parentElement.style.boxShadow = '0px 0px 10px 3px green';
                 const description = item.parentElement.querySelector('.excursions__description').textContent;
                 const tripData = this._singleExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber);
                 this._getPrice();
@@ -182,7 +200,7 @@ class Excursions {
         
     
         singlePrice.forEach((el) => {
-            if(!el.parentElement.parentElement.className.includes('summary__item--prototype')) {
+            if(!el.parentElement.parentElement.parentElement.className.includes('summary__item--prototype')) {
                 pricesArray.push(parseInt(el.textContent));
             }
         });
@@ -192,7 +210,6 @@ class Excursions {
 
     _setPrice(prices) {
         const totalPrice = document.querySelector('.order__total-price-value')
-
         let totalSum = prices.reduce(function(a, b) {
             return a+b;
         },0)

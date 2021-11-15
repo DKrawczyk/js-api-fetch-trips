@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JavaScript: API oraz FETCH - client, devmentor.pl</title>
+    <script src="https://kit.fontawesome.com/27ed604d7e.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -18,7 +19,7 @@
                         <h2 class="excursions__title">Ogrodzieniec</h2>
                         <p class="excursions__description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?</p>
                     </header>
-                    <form class="excursions__form">
+                    <form autocomplete="off" class="excursions__form">
                         <div class="excursions__field">
                             <label class="excursions__field-name">
                                 Dorosły: <span class='excursions__price-adult'>99</span>PLN x <input class="excursions__field-input" name="adults" />
@@ -32,7 +33,7 @@
                         <div class="excursions__field excursions__field--submit">
                             <input 
                                 class="excursions__field-input excursions__field-input--submit" 
-                                value="dodaj do zamówinia"
+                                value="dodaj do zamówienia"
                                 type="submit"
                             />
                         </div>
@@ -42,35 +43,40 @@
         <section class="panel__form">
             <form class="panel__order order" novalidate>
                 <div class="order__total-price">
-                    Razem:
+                    <h2>Razem:</h2>
                     <span class="order__total-price-value">199PLN</span>
                 </div>
                 <div class="order__field">
                     <label class="order__field-name">
-                        Imię i nazwisko: <input class="order__field-input" name="name" />
+                        <input class="order__field-input" name="name"  placeholder="Imię i nazwisko"/>
                     </label>
                 </div>
                 <div class="order__field">
                     <label class="order__field-name">
-                        Email <input class="order__field-input" name="email" />
+                        <input class="order__field-input" name="email" placeholder="Email"/>
                     </label>
                 </div>
                 <div class="order__field order__field--submit">
-                    <input 
-                        class="order__field-input order__field-submit" 
-                        value="zamawiam"
-                        type="submit"
-                    />
+                    <input class="order__field-input order__field-submit" value="zamawiam" type="submit"/>
+                    <div class="shine"></div>
                 </div>
             </form>
             <ul class="panel__summary summary">
+                <h2>Lista wycieczek:</h2>
                 <li class="summary__item summary__item--prototype">
                     <h3 class="summary__title">
                         <span class="summary__name">Ogrodzieniec</span>
-                        <strong class="summay__total-price">199PLN</strong> 
-                        <a href="" class="summary__btn-remove" title="usuń">X</a>
+                        <div>
+                            <strong class="summay__total-price">199PLN</strong> 
+                            <a href="" class="summary__btn-remove fas fa-trash" title="usuń"></a>
+                        </div>
                     </h3>
-                    <p class="summary__prices">dorośli: <span class="summary__prices-adult-number">1</span> x <span class="summary__prices-adult">99</span>PLN, dzieci: <span class="summary__prices-children-number">2</span> x <span class="summary__prices-children">50</span>PLN</p>
+                    <div class="summary__prices-box">
+                        <p class="summary__prices">dorośli: <span class="summary__prices-adult-number">1</span> x <span class="summary__prices-adult">99</span>PLN, </p>
+                    </div>
+                    <div class="summary__prices-box">
+                        <p>dzieci: <span class="summary__prices-children-number">2</span> x <span class="summary__prices-children">50</span>PLN</p>
+                    </div>
                 </li>
             </ul>
         </section>
