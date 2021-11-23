@@ -1,7 +1,7 @@
 class Excursions {
 
     constructor(api) {
-        this.apiAction = api;
+        this.apiProvider = api;
         this.basket = [];
         this.id = 0;
     }
@@ -9,7 +9,7 @@ class Excursions {
     load() {
         this._hidePrototypes();
 
-        this.apiAction.loadData()
+        this.apiProvider.loadData()
             .then (data => {
                 this.insert(data)
             })
@@ -18,12 +18,12 @@ class Excursions {
     } 
 
     insert(data) {
-        const excursionList = this._excursionList();
+        const element = this._excursionList();
         const excursionPrototype = this._excursionPrototype(); 
-        excursionList.innerHTML = '';
+        element.innerHTML = '';
         
         data.forEach( el => {
-            excursionList.appendChild(this._createExcursion(excursionPrototype, el));
+            element.appendChild(this._createExcursion(excursionPrototype, el));
         });
     }
 
@@ -60,7 +60,7 @@ class Excursions {
         let errorValidation = [];
         const excursionItems = document.querySelectorAll('.summary__item');
             
-        if(excursionItems.length >= 2) {
+        if(excursionItems.length >= 2) { // <- dwie, żeby liczyć też prototype
             if(name.length > 1 && email.length > 1) {
                 if(regex.test(name) === true) {
                     if(!email.includes('@')) {
@@ -96,7 +96,7 @@ class Excursions {
     }
 
     _sendOrder(data) {
-        this.apiAction.addOrder(data)
+        this.apiProvider.addOrder(data)
             .then(data => console.log(data))
             .catch(err => console.log(err))
             .finally(console.log('done'));
@@ -162,7 +162,7 @@ class Excursions {
                 el.style.boxShadow = '0px 0px 10px 3px rgb(0 0 0 / 50%)';
             });
         }
-    }
+    }                               // <---
 
     _dataValidation(item) {
         const [tripTitle, adultPrice, childPrice, adultNumber, childNumber] = this._memberDatas(item);
