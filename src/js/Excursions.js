@@ -1,3 +1,6 @@
+import DataValidation from "./DataValidation";
+const validation = new DataValidation();
+
 class Excursions {
 
     constructor(api) {
@@ -18,7 +21,7 @@ class Excursions {
     } 
 
     insert(data) {
-        const element = this._excursionList();
+        const element = this._excursionListElement();
         const excursionPrototype = this._excursionPrototype(); 
         element.innerHTML = '';
         
@@ -28,7 +31,7 @@ class Excursions {
     }
 
     orderTrip() {
-        const addExcursion = this._excursionList()
+        const addExcursion = this._excursionListElement()
         addExcursion.addEventListener('submit', ev => {
             ev.preventDefault();
 
@@ -51,45 +54,53 @@ class Excursions {
         });
     }
 
-    _excursionList() {
+    _excursionListElement() {
         return document.querySelector('.excursions');
     }
 
     _userOrder(ev) {
         const [name, email, regex] = this._purchaserData(ev);
         let errorValidation = [];
-        const excursionItems = document.querySelectorAll('.summary__item');
-            
-        if(excursionItems.length >= 2) { // <- dwie, żeby liczyć też prototype
-            if(name.length > 1 && email.length > 1) {
-                if(regex.test(name) === true) {
-                    if(!email.includes('@')) {
-                        alert('Email is incorrect');
-                        errorValidation.push('Email is incorrect')
+        const excursionItems = document.querySelectorAll('.summary__item:not(.summary__item--prototype)');
+
+        const isExcursionTyped = validation.isExcursionTyped(excursionItems.length, 'Please, choose at least one excursion');
+        if(isExcursionTyped === true) {
+
+            const isPurchaserCorrect = validation.isPurchaserInformationCorrect(name.length, email.length, 'Please, insert purchaser informations');
+            if(isPurchaserCorrect === true) {
+
+                const isUserDataCorrect = validation.isUserDataCorrect(regex, name, 'Name and surname is incorrect');
+                if(isUserDataCorrect === true) {
+
+                    const isEmailCorrect = validation.isEmailCorrect(email, 'Email is incorrect');
+                    if(typeof isEmailCorrect === 'string') {
+                        alert(isEmailCorrect);
+                        errorValidation.push(isEmailCorrect);
                     }
                 }
                 else {
-                    alert('Name and surname is incorrect');
-                    errorValidation.push('Name and surname is incorrect')
+                    alert(isUserDataCorrect);
+                    errorValidation.push(isUserDataCorrect);
                 }
             } 
             else {
-                alert('Please, insert purchaser informations');
-                errorValidation.push('Please, insert purchaser informations')
+                alert(isPurchaserCorrect);
+                errorValidation.push(isPurchaserCorrect);
             }
         }
         else {
             ev.preventDefault();
-            alert('Please, choose at least one excursion');
-            errorValidation.push('Please, choose at least one excursion')
+            alert(isExcursionTyped);
+            errorValidation.push(isExcursionTyped);
         }
 
         if(errorValidation.length > 0) {
             ev.preventDefault();
         }
         else {
-            // ev.preventDefault();
-            this._sendOrder(this._orderInfo(name, email));
+            // ev.preventDefault(); 
+            const totalAmount = document.querySelector('.order__total-price-value').innerText;
+            this._sendOrder(this._orderInfo(name, email, parseFloat(totalAmount)));
             errorValidation = [];
             alert('Thank you for order our trips!');
         }
@@ -102,11 +113,12 @@ class Excursions {
             .finally(console.log('done'));
     }
 
-    _orderInfo(name, email) {
+    _orderInfo(name, email, amount) {
         const data = {
             purchaser:name,
             purchaserEmail: email,
-            cart: this.basket
+            cart: this.basket,
+            totalAmount: amount
         }
         return data;
     }
@@ -123,15 +135,18 @@ class Excursions {
         if(item.tagName === "A") {
             const userConfirm = confirm('Are you sure?');
             if(userConfirm) {
-
+//<- KOMENTARZ TU
+                console.log(this.basket);                       
+                // console.log(this);
+                // const [element] = this.basket;
+                // console.log(this.element);
+                // console.log(this.id);
+                // console.log(this.basket.dataset);             
+ // <- I TU
                 this._updateBasket(this._rootElement(item));
                 this._defaulBorder(item);
-
                 this._rootElement(item).remove();
-                
-                // console.log(test);
                 this._getPrice();
-                console.log(this.basket);
             }
             else {
                 ev.preventDefault();
@@ -141,11 +156,11 @@ class Excursions {
 
     _updateBasket(current) {
 
-        let test = parseFloat(current.dataset.id);
+        let id = parseFloat(current.dataset.id);
 
         for (let i=0; i<this.basket.length; i++) {
 
-            if(this.basket[i].id === test) {
+            if(this.basket[i].id === id) {
                 this.basket.splice(i, 1);
             }
         }
@@ -166,24 +181,48 @@ class Excursions {
 
     _dataValidation(item) {
         const [tripTitle, adultPrice, childPrice, adultNumber, childNumber] = this._memberDatas(item);
-
-        if (adultNumber > 0 || childNumber > 0) {
-            if(isNaN(adultNumber) === false && isNaN(childNumber) === false) {
+        const isNumberOfMembers = validation.isNumberOfMembers(adultNumber, childNumber, 'Please, insert values');
+        if (isNumberOfMembers === true) {
+            const isMembersDataCorrect = validation.isMembersDataCorrect(adultNumber, childNumber, 'Please, insert correct values');
+            if(isMembersDataCorrect === true) {
                 item.parentElement.style.border = '1px solid green';
                 item.parentElement.style.boxShadow = '0px 0px 10px 3px green';
                 const description = item.parentElement.querySelector('.excursions__description').textContent;
                 const tripData = this._singleExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber);
                 this.id++;
                 this._getPrice();
-
                 tripData.description = description;
                 this.basket.push(tripData);
+                    //PRZERWA
+                // console.log(this.el);
+                // console.log(this.basket);
+                // console.log(this.basket[0]);
+                // let arr = this.basket;
+                // arr.find (el => {
+                    // console.log(el.id);
+                // })
+                // let [test] = this.basket;
+                // console.log(test.id);
+                // test.forEach((el) => {
+                    // console.log(el)
+                // })
+                // this.basket.forEach((el) => {
+                    // console.log(el);
+                // })
+                // console.log(this.basket[2]);
+                // let testId = this.basket;
+                // console.log(testId['id']);
+                // indexOf.this
+                // console.log(this.basket.indexOf(this));
+                // console.log(this.index);
+                // let arr = this.basket;
+                // console.log(arr.indexOf(this.basket));
             }
             else 
-            alert('Please, insert correct values');
+            alert(isMembersDataCorrect);
         }
         else {
-            alert('Please, insert values')
+            alert(isNumberOfMembers);
         }  
     }
 
@@ -192,20 +231,16 @@ class Excursions {
         const pricesArray = [];
     
         singlePrice.forEach((el) => {
-            if(!el.parentElement.parentElement.parentElement.className.includes('summary__item--prototype')) {
-                pricesArray.push(parseInt(el.textContent));
-            }
+            pricesArray.push(parseInt(el.textContent));
         });
-        
         this._setPrice(pricesArray);
     }
 
     _setPrice(prices) {
-        const totalPrice = document.querySelector('.order__total-price-value')
+        const totalPrice = document.querySelector('.order__total-price-value');
         let totalSum = prices.reduce(function(a, b) {
             return a+b;
         },0)
-        
         totalPrice.innerText = `${totalSum}PLN`;
     }
 
@@ -243,9 +278,6 @@ class Excursions {
     _hidePrototypes() {
         const defaultSummaryField = document.querySelector('.summary__item--prototype');
         defaultSummaryField.style.display = "none";
-
-        const price = document.querySelector('.order__total-price-value');
-        price.innerText = '0PLN';
 
         const excursionPrototype = document.querySelector('.excursions__item--prototype');
         excursionPrototype.style.display = 'none';
