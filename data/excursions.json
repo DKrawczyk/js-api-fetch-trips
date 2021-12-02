@@ -17,15 +17,15 @@
     {
       "title": "Wrocław",
       "description": "Nemo, nobis veritatis?",
-      "adultPrice": "200",
-      "childPrice": "160",
+      "adultPrice": "210",
+      "childPrice": "150",
       "id": 5
     },
     {
       "title": "Jarocin",
       "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
-      "adultPrice": "80",
-      "childPrice": "40",
+      "adultPrice": "125",
+      "childPrice": "50",
       "id": 6
     }
   ],
