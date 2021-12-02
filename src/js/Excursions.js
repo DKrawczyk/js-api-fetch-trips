@@ -6,7 +6,7 @@ class Excursions {
     constructor(api) {
         this.apiProvider = api;
         this.basket = [];
-        this.id = 0;
+        this.id = 0; //zakomentować później
     }
 
     load() {
@@ -59,7 +59,7 @@ class Excursions {
     }
 
     _userOrder(ev) {
-        const [name, email, regex] = this._purchaserData(ev);
+        const [name, email] = this._purchaserData(ev);
         let errorValidation = [];
         const excursionItems = document.querySelectorAll('.summary__item:not(.summary__item--prototype)');
 
@@ -68,8 +68,8 @@ class Excursions {
 
             const isPurchaserCorrect = validation.isPurchaserInformationCorrect(name.length, email.length, 'Please, insert purchaser informations');
             if(isPurchaserCorrect === true) {
-
-                const isUserDataCorrect = validation.isUserDataCorrect(regex, name, 'Name and surname is incorrect');
+                const regexName = /^[\w'\-,.][^0-9_!¡?÷?¿\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
+                const isUserDataCorrect = validation.isUserDataCorrect(regexName, name, 'Name and surname is incorrect');
                 if(isUserDataCorrect === true) {
 
                     const isEmailCorrect = validation.isEmailCorrect(email, 'Email is incorrect');
@@ -126,23 +126,17 @@ class Excursions {
     _purchaserData() {
         const nameAndSurname = document.querySelector('input[name="name"]').value;
         const email = document.querySelector('input[name="email"]').value;
-        const regexName = /^[\w'\-,.][^0-9_!¡?÷?¿\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
 
-        return [nameAndSurname, email, regexName];
+        return [nameAndSurname, email];
     }
 
     _removeExcursion(item, ev) {
         if(item.tagName === "A") {
             const userConfirm = confirm('Are you sure?');
             if(userConfirm) {
-//<- KOMENTARZ TU
+
                 console.log(this.basket);                       
-                // console.log(this);
-                // const [element] = this.basket;
-                // console.log(this.element);
-                // console.log(this.id);
-                // console.log(this.basket.dataset);             
- // <- I TU
+
                 this._updateBasket(this._rootElement(item));
                 this._defaulBorder(item);
                 this._rootElement(item).remove();
@@ -158,20 +152,17 @@ class Excursions {
 
         let id = parseFloat(current.dataset.id);
 
-        for (let i=0; i<this.basket.length; i++) {
-
-            if(this.basket[i].id === id) {
-                this.basket.splice(i, 1);
-            }
-        }
+        this.basket = this.basket.filter(item => {
+            return item.id !== id;
+        });
         return this.basket;
     }
 
     _defaulBorder(item) {           //  <---        TO JEST W FAZIE PROTOTYPU, BĘDĘ TO UDOSKONALAŁ :D
-                                        
+        // console.log(this.basket);
+        // console.log(item);
         if(this.basket.length === 0) {
             const excursionsArray = document.querySelectorAll('.excursions__item');
-
             excursionsArray.forEach( el => {
                 el.style.border = '1px solid black';
                 el.style.boxShadow = '0px 0px 10px 3px rgb(0 0 0 / 50%)';
@@ -180,43 +171,14 @@ class Excursions {
     }                               // <---
 
     _dataValidation(item) {
-        const [tripTitle, adultPrice, childPrice, adultNumber, childNumber] = this._memberDatas(item);
+        const [adultNumber, childNumber] = this._memberDatas(item);
         const isNumberOfMembers = validation.isNumberOfMembers(adultNumber, childNumber, 'Please, insert values');
         if (isNumberOfMembers === true) {
             const isMembersDataCorrect = validation.isMembersDataCorrect(adultNumber, childNumber, 'Please, insert correct values');
             if(isMembersDataCorrect === true) {
                 item.parentElement.style.border = '1px solid green';
                 item.parentElement.style.boxShadow = '0px 0px 10px 3px green';
-                const description = item.parentElement.querySelector('.excursions__description').textContent;
-                const tripData = this._singleExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber);
-                this.id++;
-                this._getPrice();
-                tripData.description = description;
-                this.basket.push(tripData);
-                    //PRZERWA
-                // console.log(this.el);
-                // console.log(this.basket);
-                // console.log(this.basket[0]);
-                // let arr = this.basket;
-                // arr.find (el => {
-                    // console.log(el.id);
-                // })
-                // let [test] = this.basket;
-                // console.log(test.id);
-                // test.forEach((el) => {
-                    // console.log(el)
-                // })
-                // this.basket.forEach((el) => {
-                    // console.log(el);
-                // })
-                // console.log(this.basket[2]);
-                // let testId = this.basket;
-                // console.log(testId['id']);
-                // indexOf.this
-                // console.log(this.basket.indexOf(this));
-                // console.log(this.index);
-                // let arr = this.basket;
-                // console.log(arr.indexOf(this.basket));
+                this._addExcursion(item);
             }
             else 
             alert(isMembersDataCorrect);
@@ -224,6 +186,16 @@ class Excursions {
         else {
             alert(isNumberOfMembers);
         }  
+    }
+
+    _addExcursion(item) {
+        const [adultNumber, childNumber, tripTitle, adultPrice, childPrice, id] = this._memberDatas(item);
+        const description = item.parentElement.querySelector('.excursions__description').textContent;
+        const tripData = this._singleExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber, id);
+        this.id++;  //zakomentować później
+        this._getPrice();
+        tripData.description = description;
+        this.basket.push(tripData);
     }
 
     _getPrice() {
@@ -244,15 +216,15 @@ class Excursions {
         totalPrice.innerText = `${totalSum}PLN`;
     }
 
-    _singleExcursion(tripTitle, adultPrice, childPrice, adultMember, childMember) {
+    _singleExcursion(tripTitle, adultPrice, childPrice, adultMember, childMember) { //id <- tu ID
         const excursionPrototype = document.querySelector('.summary__item--prototype');
         const summary = this._summaryElement();
         const newExcursion = excursionPrototype.cloneNode(true);
         const singleExcursionPrice = adultPrice * adultMember + childPrice * childMember;
         summary.appendChild(newExcursion);
-        let id = this.id;
+        let id = this.id; //zakomentować później
     
-        newExcursion.dataset.id = this.id;
+        newExcursion.dataset.id = id;
         newExcursion.style.display = "block";
         newExcursion.classList.remove('summary__item--prototype');
         const orderTitle = newExcursion.querySelector('.summary__name').innerText = tripTitle;
@@ -271,8 +243,9 @@ class Excursions {
         const childPrice = item.querySelector('.excursions__price-child').textContent;
         const adultNumber = item.querySelector('input[name="adults"]').value;
         const childNumber = item.querySelector('input[name="children"]').value;
+        const id = item.parentElement.dataset.id;
 
-        return [tripTitle, parseFloat(adultPrice), parseFloat(childPrice), parseFloat(adultNumber), parseFloat(childNumber)];
+        return [parseFloat(adultNumber), parseFloat(childNumber), tripTitle, parseFloat(adultPrice), parseFloat(childPrice), parseInt(id)];
     }
 
     _hidePrototypes() {
@@ -291,7 +264,8 @@ class Excursions {
         newElement.querySelector('p').innerText = item.description;
         newElement.querySelector('.excursions__price-adult').innerText = item.adultPrice;
         newElement.querySelector('.excursions__price-child').innerText = item.childPrice;
-        newElement.dataset.id = item.id;
+        newElement.dataset.id = this.id;
+        // newElement.dataset.id = item.id;
 
         return newElement;
     }
