@@ -13,24 +13,39 @@ ul {
     margin: 0 auto;
     max-width: 1200px;
     padding: 30px 0;
+    justify-content: space-around;
 }
 
-.panel__excursins {
+.panel__excursions {
     width: 70%;
+}
+
+.panel__header {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 2.5rem;
+    color: #037171;
+    border-bottom: 1px solid #02c3bd;
 }
 
 .excursions {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+    align-items: flex-end;
+    width: 60%;
 }
 
 .excursions__item {
-    border: 1px solid #bbb;
     border-radius: 5px;
     margin: 10px;
-    padding: 20px;
-    width: calc(50% - 20px);
+    padding: 15px;
+    width: calc(75% - 20px);
+    text-align: center;
+    background-color: white;
+    border: 1px solid;
+    color: #037171;
+    box-shadow: 3px 3px;
 }
 
 .panel__form {
@@ -47,8 +62,66 @@ ul {
 
 .form__field {
     display: block;
+    height: 40px;
+    border: none;
+    font-size: 20px;
+    outline: none;
+    border: 1px solid #02c3bd;
+    border-radius: 14px;
+    width: 100%;
+}
+
+.form__label--describe {
+    height: 50px;
+    padding-bottom: 100px;
+}
+
+.form__row {
+    text-align: center;
+    font-size: 24px;
+    color: #037171;
+    margin-bottom: 50px;
+}
+
+.panel__container {
+    width: 35%;
+}
+
+.panel__container > .form {
+    width: 100%;
+    margin-top: 20px;
 }
 
 .form__field--longtext {
-    height: 100px;
+    height: 90px;
+}
+
+.order__field--submit {
+    display: flex;
+    justify-content: center;
+}
+
+.order__field-submit {
+    width: 70%;
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid #037171;
+    font-size: 25px;
+    color: #037171;
+    cursor: pointer;
+    box-shadow: 2px 2px;
+}
+
+.excursions__field {
+    margin: 8px 0;
+}
+
+.excursions__field-input {
+    width: 15%;
+    height: 24px;
+    border-radius: 20px;
+    border: 2px solid #037171;
+    color: #037171;
+    cursor: pointer;
+    box-shadow: 1px 1px;
 }

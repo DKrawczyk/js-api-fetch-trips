@@ -2,9 +2,9 @@
   "excursions": [
     {
       "title": "Ogrodzieniec",
-      "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?\n\n",
+      "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?",
       "adultPrice": "90",
-      "childPrice": "40",
+      "childPrice": "20",
       "id": 2
     },
     {
@@ -24,8 +24,8 @@
     {
       "title": "Jarocin",
       "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
-      "adultPrice": "125",
-      "childPrice": "50",
+      "adultPrice": "120",
+      "childPrice": "35",
       "id": 6
     }
   ],

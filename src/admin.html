@@ -7,8 +7,39 @@
     <title>JavaScript: API oraz FETCH - admin, devmentor.pl</title>
 </head>
 <body>
-    <h1>Panel administratora</h1>
+    <h1 class = "panel__header">Panel administratora</h1>
     <section class="panel">
+        <section class="panel__container">
+            <form class="form" novalidate>
+                <div class="form__row">
+                    <label class="form__label">
+                        Nazwa wycieczki:<input class="form__field" name="name" />
+                    </label>
+                </div>
+                <div class="form__row form__label--describe">
+                    <label class="form__label">
+                        Opis wycieczki:<textarea class="form__field form__field--longtext" name="description"></textarea>
+                    </label>
+                </div>
+                <div class="form__row">
+                    <label class="form__label">
+                        Cena za dorosłego:<input class="form__field" type="number" name="name" />
+                    </label>
+                </div>
+                <div class="form__row">
+                    <label class="form__label">
+                        Cena za dziecko:<input class="form__field" type="number" name="name" />
+                    </label>
+                </div>
+                <div class="order__field order__field--submit">
+                    <input 
+                        class="order__field-input order__field-submit" 
+                        value="dodaj"
+                        type="submit"
+                    />
+                </div>
+            </form>
+        </section>
         <ul class="panel__excursions excursions">
             <li data-id="1" class="excursions__item excursions__item--prototype">
                 <header class="excursions__header">
@@ -41,38 +72,6 @@
                 </form>
             </li>
         </ul>
-        <section>
-            <form class="form" novalidate>
-                <div class="form__row">
-                    <label class="form__label">
-                        Nazwa:<input class="form__field" name="name" />
-                    </label>
-                </div>
-                <div class="form__row">
-                    <label class="form__label">
-                        Opis:<textarea class="form__field form__field--longtext" name="description"></textarea>
-                    </label>
-                </div>
-                <div class="form__row">
-                    <label class="form__label">
-                        Cena dorosły:<input class="form__field" type="number" name="name" />
-                    </label>
-                </div>
-                <div class="form__row">
-                    <label class="form__label">
-                        Cena dziecko:<input class="order__form__field" type="number" name="name" />
-                    </label>
-                </div>
-                <div class="order__field order__field--submit">
-                    <input 
-                        class="order__field-input order__field-submit" 
-                        value="dodaj"
-                        type="submit"
-                    />
-                </div>
-            </form>
-           
-        </section>
     </section>
 
 </body>
