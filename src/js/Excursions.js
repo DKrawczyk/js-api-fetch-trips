@@ -61,37 +61,31 @@ class Excursions {
     _userOrder(ev) {
         const [name, email] = this._purchaserData(ev);
         let errorValidation = [];
+        const regexName = /^[\w'\-,.][^0-9_!¡?÷?¿\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
         const excursionItems = document.querySelectorAll('.summary__item:not(.summary__item--prototype)');
 
-        const isExcursionTyped = validation.isExcursionTyped(excursionItems.length, 'Please, choose at least one excursion');
-        if(isExcursionTyped === true) {
-
-            const isPurchaserCorrect = validation.isPurchaserInformationCorrect(name.length, email.length, 'Please, insert purchaser informations');
-            if(isPurchaserCorrect === true) {
-                const regexName = /^[\w'\-,.][^0-9_!¡?÷?¿\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
-                const isUserDataCorrect = validation.isUserDataCorrect(regexName, name, 'Name and surname is incorrect');
-                if(isUserDataCorrect === true) {
-
-                    const isEmailCorrect = validation.isEmailCorrect(email, 'Email is incorrect');
-                    if(typeof isEmailCorrect === 'string') {
-                        alert(isEmailCorrect);
-                        errorValidation.push(isEmailCorrect);
-                    }
-                }
-                else {
-                    alert(isUserDataCorrect);
-                    errorValidation.push(isUserDataCorrect);
-                }
+        if(!validation.isExcursionTyped(excursionItems.length)) {
+            ev.preventDefault();
+            alert('Please, choose at least one excursion');
+            errorValidation.push('Please, choose at least one excursion');
+        } 
+        else {
+            if(!validation.isPurchaserInformationCorrect(name.length, email.length)) {
+                alert('Please, insert purchaser informations');
+                errorValidation.push('Please, insert purchaser informations');
             } 
             else {
-                alert(isPurchaserCorrect);
-                errorValidation.push(isPurchaserCorrect);
+                if(!validation.isUserDataCorrect(regexName, name)) {
+                    alert('Name and surname is incorrect');
+                    errorValidation.push('Name and surname is incorrect');
+                }
+                else {
+                    if(!validation.isEmailCorrect(email)) {
+                        alert('Email is incorrect');
+                        errorValidation.push('Email is incorrect');
+                    } 
+                }
             }
-        }
-        else {
-            ev.preventDefault();
-            alert(isExcursionTyped);
-            errorValidation.push(isExcursionTyped);
         }
 
         if(errorValidation.length > 0) {
@@ -158,7 +152,7 @@ class Excursions {
         return this.basket;
     }
 
-    _defaulBorder(item) {           //  <---        TO JEST W FAZIE PROTOTYPU, BĘDĘ TO UDOSKONALAŁ :D
+    _defaulBorder(item) {           //  <---        TO JEST W FAZIE PROTOTYPU
         // console.log(this.basket);
         // console.log(item);
         if(this.basket.length === 0) {
