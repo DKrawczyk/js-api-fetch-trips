@@ -6,7 +6,7 @@ class Excursions {
     constructor(api) {
         this.apiProvider = api;
         this.basket = [];
-        this.id = 0; //zakomentować później
+        this.id = 0;
     }
 
     load() {
@@ -92,7 +92,6 @@ class Excursions {
             ev.preventDefault();
         }
         else {
-            // ev.preventDefault(); 
             const totalAmount = document.querySelector('.order__total-price-value').innerText;
             this._sendOrder(this._orderInfo(name, email, parseFloat(totalAmount)));
             errorValidation = [];
@@ -152,14 +151,14 @@ class Excursions {
         return this.basket;
     }
 
-    _defaulBorder(item) {           //  <---        TO JEST W FAZIE PROTOTYPU
+    _defaulBorder(item) {           //  <---        FAZA PROTOTYPU
         // console.log(this.basket);
         // console.log(item);
         if(this.basket.length === 0) {
             const excursionsArray = document.querySelectorAll('.excursions__item');
             excursionsArray.forEach( el => {
-                el.style.border = '1px solid black';
-                el.style.boxShadow = '0px 0px 10px 3px rgb(0 0 0 / 50%)';
+                el.classList.remove('greenBorder');
+                el.classList.remove('greenShadow');
             });
         }
     }                               // <---
@@ -170,8 +169,8 @@ class Excursions {
         if (isNumberOfMembers === true) {
             const isMembersDataCorrect = validation.isMembersDataCorrect(adultNumber, childNumber, 'Please, insert correct values');
             if(isMembersDataCorrect === true) {
-                item.parentElement.style.border = '1px solid green';
-                item.parentElement.style.boxShadow = '0px 0px 10px 3px green';
+                item.parentElement.classList.add('greenBorder');
+                item.parentElement.classList.add('greenShadow');
                 this._addExcursion(item);
             }
             else 
@@ -186,7 +185,7 @@ class Excursions {
         const [adultNumber, childNumber, tripTitle, adultPrice, childPrice, id] = this._memberDatas(item);
         const description = item.parentElement.querySelector('.excursions__description').textContent;
         const tripData = this._singleExcursion(tripTitle, adultPrice, childPrice, adultNumber, childNumber, id);
-        this.id++;  //zakomentować później
+        this.id++;
         this._getPrice();
         tripData.description = description;
         this.basket.push(tripData);
@@ -210,13 +209,13 @@ class Excursions {
         totalPrice.innerText = `${totalSum}PLN`;
     }
 
-    _singleExcursion(tripTitle, adultPrice, childPrice, adultMember, childMember) { //id <- tu ID
+    _singleExcursion(tripTitle, adultPrice, childPrice, adultMember, childMember) {
         const excursionPrototype = document.querySelector('.summary__item--prototype');
         const summary = this._summaryElement();
         const newExcursion = excursionPrototype.cloneNode(true);
         const singleExcursionPrice = adultPrice * adultMember + childPrice * childMember;
         summary.appendChild(newExcursion);
-        let id = this.id; //zakomentować później
+        let id = this.id;
     
         newExcursion.dataset.id = id;
         newExcursion.style.display = "block";
@@ -259,7 +258,6 @@ class Excursions {
         newElement.querySelector('.excursions__price-adult').innerText = item.adultPrice;
         newElement.querySelector('.excursions__price-child').innerText = item.childPrice;
         newElement.dataset.id = this.id;
-        // newElement.dataset.id = item.id;
 
         return newElement;
     }
