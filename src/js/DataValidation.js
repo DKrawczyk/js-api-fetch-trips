@@ -39,21 +39,21 @@ class DataValidation {
         }
     }
 
-    isNumberOfMembers(adult, child) {
+    isNumberOfMembers(adult, child, alert) {
         if(adult > 0 || child > 0) {
             return true;
         }
         else {
-            return false;
+            return alert;
         }
     }
 
-    isMembersDataCorrect(adult, child) {
+    isMembersDataCorrect(adult, child, alert) {
         if(isNaN(adult) === false && isNaN(child) === false) {
             return true;
         }
         else {
-            return false;
+            return alert;
         }
     }
 }

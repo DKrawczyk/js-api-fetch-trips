@@ -87,7 +87,6 @@ ul {
 }
 
 .excursions__field-input--submit:hover {
-    /* transform: translateY(4px); */
     cursor: pointer;
 }
 
@@ -128,15 +127,12 @@ ul {
     border: 1px solid gray;
     transform: translateX(0px);
     transition: 0.5s;
-    /* background-color: gray; */
 }
 
 .summary__item:hover {
-    /* padding: 5px 0; */
     background-color: #ccc;
     transform: translateX(15px);
     transition: 0.5s;
-    /* cursor: pointer; */
 }
 
 .summary__item > h3 {
@@ -203,7 +199,7 @@ ul {
 .order__field--submit:hover .shine {
     transform: skewX(20deg) translateX(285px);
 }
-  
+
 .shine {
     position: absolute;
     left: 24px;

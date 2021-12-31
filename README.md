@@ -1,121 +1,128 @@
-> ⭐ ***README** to coś więcej niż opis. Poprzez nie **pokazujesz swoje mocne strony** – swoją dokładność, sposób myślenia i podejście do rozwiązywania problemów. Niech Twoje README pokaże, że masz **świetne predyspozycje do rozwoju!***
-> 
-> 🎁 *Zacznij od razu. Skorzystaj z **[szablonu README i wskazówek](https://github.com/devmentor-pl/readme-template)**.* 
+Excursion API&Fetch Project 
 
-&nbsp;
+This project allows you to purchase excursions by typing the number of participants. Whereas, administration panel is made to ensure control over your excursions.
 
 
-# JavaScript: API oraz FETCH
+Installation
 
-## Wprowadzanie
+The project uses node and npm. To run this project, you must first install all necessary packages. After this, you should turn on our JSON Server. Let's start:
 
-Wracamy do naszego zlecenia związanego z wycieczkami. Tym razem postanowiliśmy przebudować kod wykorzystując nowo poznane informacje.
+First, install all packages implemented in package.json:
 
-Podzielimy naszą aplikację na 2 części. 
+    npm i
 
-### Client
+Second - after this, you can start our website:
 
-Funkcjonalność związana z tym co może zrobić użytkownik tj.:
-* wybrać wycieczkę poprzez wprowadzenie ilość zamawianych biletów w odpowiednie pole formularza i kliknięcie `dodaj do zamówienia`
-    * walidacja danych
-    * zamówienie jest dodawana do panelu z prawej strony tj. do koszyka
-    * cena za całość jest aktualizowana
-* potwierdzenie zamówienia poprzez wprowadzenie imienia, nazwiska oraz adresu email do pola zamówienia i kliknięcia `zamawiam`
-    * walidacja danych
-    * wysłanie zamówienia do bazy danych (u nas to będzie API uruchomione dzięki JSON Server)
-    * wyczyszczenie "koszyka"
+    npm start
 
-Pliki powiązane:
-* `./src/index.html`
-* `./src/js/client.js`
-* `./src/css/client.css`
+Now you can see the main website where you can order excursions.
+The main panel is available at this address:
 
-### Admin    
-Panel zarządzania wycieczkami zapisanych w bazie danych: 
-* dodawanie wycieczek
-* usuwanie wycieczek
-* modyfikowanie wycieczek
+    http://localhost:8080/index.html
 
-Pliki powiązane
-* `./src/admin.html`
-* `./src/js/admin.js`
-* `./src/css/admin.css`
+Also at this address, you can see the administration panel:
 
-## Implementacja
+    http://localhost:8080/admin.html
 
-### Webpack
+On this site, you have access to edit, add or remove excursions.
 
-W tym zadaniu wykorzystamy webpack-a, którego omawialiśmy przy materiale dotyczącym ES2015+. 
+These links will show you the current database.
+Current excursions on your web:
 
-Zauważ, że posiada on dodatkową konfigurację, która obsługuje podział aplikacji na 2 cześci. Zwróć szczególną uwage na tzw. chunks.
+    http://localhost:3000/excursions
 
-Webpack również zajmuje się wczytaniem plików css (zobacz importy w `client.js` oraz `admin.js`) dzięki odpowiednim loader-om w `webpack.config.js` dla plików o rozszerzeniu `.css`. Style są wczytywane do `<head>` więc się nie zdziw, że pliki `css` nie są generowane.
+Ordered excursions by clients:
 
-Pamiętaj, aby zainstalować wszystkie zależności przed uruchomieniem webpack-a tj.
-```
-npm install
-```
-Potem dopiero możesz go uruchomić poprzez `npm start`.
-
-Jeśli chcesz odpalić wersję `client` to wystarczy wpisać w przeglądarkę `http://localhost:8080/index.html` natomiast `admin` będzie dostępny pod adresem: `http://localhost:8080/admin.html`.
-
-> **Uwaga!** Jeśli nie widzisz poprawnych "linii" błędów w konsoli to prawodpodobnie nie masz włączonej obsługi source maps dla plików JavaScript. Możesz to zmienić w [ustawieniach przeglądarki Chrome](https://developers.google.com/web/tools/chrome-devtools/javascript/source-maps).
-
-### JSON Server
-
-Podczas przerabiania materiałów zainstalowaliśmy globalnie JSON Server dlatego nie musimy go instalować - wystarczy, że go uruchomimy. Pamietaj, że bez jego uruchomienia nasze API nie będzie działać. 
-
-Odpalamy kolejny terminal (webpack już jest uruchomiony w jednym) i przechodzimy do katalogu głównego z zadaniem. Następnie wpisujemy do terminala:
-```
-json-server --watch ./data/excursions.json
-```
-
-Od teraz API będzie dostępne pod adresem: http://localhost:3000, jednak zauważ, że w pliku mamy dwa różne zasoby tj.
-* excursions
-* orders
-
-W zależności od tego na jakich danych będziesz chciał pracować to będziesz do `fetch()` przekazywać inny URL tj.
-* http://localost:3000/excursions - zarządzanie wycieczkami
-* http://localost:3000/orders - zarządzanie zamówieniami
-
-### Fetch
-
-Nasza komunikacja z uruchomionym API będzie się odbywać przy pomocy `fetch()`, który został opisany w przerabianych materiałach.
-
-Choć `fetch()` jest mocno [wspierany przez najnowsze przeglądarki](https://caniuse.com/#feat=fetch) to nie powinniśmy zapominać o wsparciu dla starszych rozwiązań.
-
-W takim przypadku możemy wykorzystać tzw. polyfill, który doda niewspieraną przez przeglądarkę funkcjonalność.
-
-Możesz do tego wykorzystać [whatwg-fetch](https://github.com/github/fetch).
-
-### ExcursionsAPI
-
-W katalogu `./src/js` znajdziesz plik `ExcursionsAPI.js`, który zawiera klasę o tej samej nazwie.
-
-Został on stworzony, aby przechowywać w jednym miejscu całą komunikację z API.
-
-To tutaj powinny być zdefiniowane metody, które odpytują API np. pobieranie wycieczek czy ich dodawanie.
-
-Ta klasa będzie używana po stronie `client` jak i `admin` dlatego też została ona zaimportowana do obu plików JS odpowiedzialnych za każdą z części.
-
-### Prototypy
-
-Zauważ, że w kodzie wystąpują prototypy (`.*--prototype`) są one używane tylko po to, aby ułatwić prezentację danych. 
-
-Docelowo mają być one niewidoczne - możesz je ukryć przy pomocy CSS (`display: none`). Natomiast może warto je wykorzystać do skopiowania struktury kodu HTML, aby nie musieć tego robić w kodzie JS.
-
-## Podsumowanie
-
-Postaraj sie wykonać to zadanie w taki sposób, aby zarządzanie wycieczkami było wygodne, a ich zamawianie intuicyjnie. 
-
-Miej cały czas z tyłu głowy myśl, że może kiedyś znów będzie trzeba przebudować lub wykorzystać w innym projekcie napisany kod dlatego powinien być on jak najbardziej elastyczny (zasada pojedyńczej odpowiedzialności).
-
-Jeśli potrzebujesz to możesz zmodyfikować HTML oraz CSS, aby zwiększyć funkcjonalność całego rozwiązania.
+    http://localhost:3000/orders
 
 
+Solutions provided in the project
 
-&nbsp;
+- Webpack configurated to watch and refresh all CSS and JS files,
 
-> ⭐ ***README** to coś więcej niż opis. Poprzez nie **pokazujesz swoje mocne strony** – swoją dokładność, sposób myślenia i podejście do rozwiązywania problemów. Niech Twoje README pokaże, że masz **świetne predyspozycje do rozwoju!***
-> 
-> 🎁 *Zacznij od razu. Skorzystaj z **[szablonu README i wskazówek](https://github.com/devmentor-pl/readme-template)**.* 
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: 'babel-loader',
+
+            },
+            {
+                test: /\.css$/,
+                exclude: /node_modules/,
+                use: ['style-loader', 'css-loader'],
+            }
+        ]
+    }
+
+- Local API made by JSON Server, available in ./data/excursions.json
+- Basic animations made in CSS, for example:
+
+    .order__field--submit:hover .shine {
+        transform: skewX(20deg) translateX(285px);
+    }
+
+    .shine {
+        position: absolute;
+        ...
+        transition: all .4s linear;
+        transform: skewX(20deg) translateX(0);
+    }
+
+- Arrow functions, classes compatible with ES6 standard,
+- Fetch API which allows to send requests and responses,
+
+    _fetch(path, options, additionalPath = '') {
+        const url = path + additionalPath;
+
+        return fetch (url, options)
+            .then(resp => {
+                if(resp.ok) {
+
+                    return resp.json();
+                }
+
+            return Promise.reject(resp);
+        });
+    }
+
+- Regular expressions, for example:
+
+    const regexName = /^[\w'\-,.][^0-9_!¡?÷?¿\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
+    ...
+    if(regex.test(name) === true) {
+        return true;
+    }
+
+- This project use CRUD functionality. Administrator panel allow you to delete/add/edit every excursion,
+
+- Validation which doesn't allow to send incorrect data, like invalid emails or wrong information about the purchaser
+
+- Basic refactoring, according to DRY rule. Because of this, we can avoid repeating our code:
+
+    loadData() {
+        return this._fetch(this.excursionURL);
+    }
+
+
+    function init() {
+        const api = new ExcursionsAPI();
+        const excursions = new Excursions(api);
+
+        excursions.load();
+        excursions.orderTrip();
+        excursions.remove();
+        excursions.order();
+    }
+
+
+Conclusions for future projects
+
+I read about destructuring and spread operators which allow me to make code shorter and more readable. This project could be compatible with the RWD design. Also, the next project would be styling after using a basic reset.css file, which makes styling easier.
+
+The next step would get rid of the problem with the green border around the clicked excursion. This border would be invisible when excursion won't be in the cart. Function _defaultBorder is in the protoype phase.
+
+
+🙏 Special thanks
+Special thanks to my Mentor - devmentor.pl for providing me with the task and code review.

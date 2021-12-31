@@ -43,6 +43,7 @@ class Excursions {
         const summary = this._summaryElement();
         summary.addEventListener('click', ev => {
             ev.preventDefault();
+
             this._removeExcursion(ev.target, ev)
         });
     }
@@ -127,12 +128,11 @@ class Excursions {
         if(item.tagName === "A") {
             const userConfirm = confirm('Are you sure?');
             if(userConfirm) {
-
-                console.log(this.basket);                       
+                const test = item.parentElement.parentElement.children[0].innerText;
 
                 this._updateBasket(this._rootElement(item));
-                this._defaulBorder(item);
                 this._rootElement(item).remove();
+                this._defaulBorder(item, test);
                 this._getPrice();
             }
             else {
@@ -151,9 +151,12 @@ class Excursions {
         return this.basket;
     }
 
-    _defaulBorder(item) {           //  <---        FAZA PROTOTYPU
+    _defaulBorder(item, clickedItem) {           //  <---        FAZA PROTOTYPU
         // console.log(this.basket);
+        // console.log(item.parentElement.parentElement);
+        // console.log(clickedItem);
         // console.log(item);
+
         if(this.basket.length === 0) {
             const excursionsArray = document.querySelectorAll('.excursions__item');
             excursionsArray.forEach( el => {
@@ -161,11 +164,11 @@ class Excursions {
                 el.classList.remove('greenShadow');
             });
         }
-    }                               // <---
+    }///////////////////////////////////////////////////////////////////////         <---
 
     _dataValidation(item) {
         const [adultNumber, childNumber] = this._memberDatas(item);
-        const isNumberOfMembers = validation.isNumberOfMembers(adultNumber, childNumber, 'Please, insert values');
+        const isNumberOfMembers = validation.isNumberOfMembers(adultNumber, childNumber, 'Please, insert numbers');
         if (isNumberOfMembers === true) {
             const isMembersDataCorrect = validation.isMembersDataCorrect(adultNumber, childNumber, 'Please, insert correct values');
             if(isMembersDataCorrect === true) {
