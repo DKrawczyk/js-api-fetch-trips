@@ -1,4 +1,4 @@
-Excursion API&Fetch Project 
+# Excursion API&Fetch Project 
 
 This project allows you to purchase excursions by typing the number of participants. Whereas, administration panel is made to ensure control over your excursions.
 
