@@ -1,4 +1,4 @@
-# Excursion API&Fetch Project 
+# Excursions API&Fetch Project 
 
 ![Excursions Panel UI](https://github.com/DKrawczyk/js-api-fetch-trips/blob/main/assets/preview.png?raw=true)
 
