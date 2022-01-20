@@ -57,8 +57,8 @@ On this site, you have access to edit, add or remove excursions. These links wil
             ]
         }
 
-- Local API made by JSON Server, available in **./data/excursions.json**
-- Basic animations made in CSS, for example:
+- Local **API** made by **JSON Serve**r, available in **./data/excursions.json**
+- Basic *animations* made in **CSS**, for example:
 
         .order__field--submit:hover .shine {
             transform: skewX(20deg) translateX(285px);
